@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<string.h>
+const int maxsize=100;
+struct postfix
+{
+	int top;
+	char arr[];
+
+};
+struct postfix x;
+void push(int data)
+{
+if(x.top<maxsize-1)
+x.arr[++x.top]=data;
+}
+void pop()
+{
+	if(x.top!=-1)
+	{
+		printf("%c",x.arr[x.top]);
+		x.top--;
+	}
+}
+void printstack()
+{
+
+	while(x.top!=-1)
+	{
+	printf("%c",x.arr[x.top--]);
+	}
+	printf("\n");
+}
+int priority(char o)
+{
+    if(o == '(')
+        return 0;
+    if(o == '+' || o == '-')
+        return 1;
+    if(o == '*' || o == '/')
+        return 2;
+        if(o == ')')
+        return 3;
+}
+int main(void)
+{
+char o[1000];
+x.top=-1;
+int n,i,j=1;
+printf("enter number of expressions entered by sheldon");
+scanf("%d",&n);
+while(j<n+1)
+{
+	printf("enter a infix expression ");
+	scanf("%s",o);
+for(i=0;o[i]!='\0';i++)
+{
+	if(o[i]<'9'&& o[i]>'1')
+	printf("%c",o[i]);
+	else
+	{
+		if(priority(o[i])!=3)
+		{
+		if((priority(o[i]) >priority(x.arr[x.top]))||priority(o[i])==0)
+		{
+		push(o[i]);
+	}
+	else if(priority(o[i])<=priority(x.arr[x.top]))
+	{
+	pop();
+	push(o[i]);
+	}
+}
+else
+{
+while(priority(x.arr[x.top]!=0)||x.top!=-1)
+	{
+		pop();
+	}
+	if(x.top!=-1)
+	x.top--;
+}
+}
+}
+printstack();
+j++;
+}
+return 0;
+}
